@@ -15,11 +15,9 @@
   <meta property="og:description" content="Seus favoritos de beleza, pertinho de você. Escolha online e retire no salão.">
   <meta property="og:type" content="website">
   <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16.png?v=2">
-  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png?v=2">
-  <link rel="icon" type="image/svg+xml" sizes="any" href="./icon.svg?v=2">
-  <link rel="shortcut icon" href="./icon.svg?v=2" type="image/svg+xml">
-  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="./logo-dulce-transparent.png?v=4">
+  <link rel="shortcut icon" type="image/png" href="./logo-dulce-transparent.png?v=4">
+  <link rel="apple-touch-icon" href="./apple-touch-icon.png?v=4">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
@@ -119,13 +117,23 @@ html{scroll-padding-top:77px}.container{padding-left:19px;padding-right:19px}.to
 @media(prefers-reduced-motion:reduce){.product-card,.category-tile{transition:none!important}}
 
 .logo-emblem-image{width:53px;height:53px;flex:0 0 53px;overflow:hidden;display:block;border-radius:13px;border:1px solid #e7d4d7;background:#f4e2df;box-shadow:0 2px 8px #6a364b10}.logo-emblem-image::after{display:none!important}.logo-emblem-image img{width:100%;height:100%;object-fit:cover;display:block}.footer .logo-emblem-image{border-color:#d9b2c0;background:#f4e2df}.header .logo{gap:12px}@media(max-width:780px){.logo-emblem-image{width:44px;height:44px;flex:0 0 44px;border-radius:11px}.header-inner{height:72px}}@media(max-width:350px){.logo-emblem-image{width:40px;height:40px;flex:0 0 40px}.header .logo{gap:8px}}
+
+/* Marca Dulce: emblema real em PNG com fundo totalmente transparente */
+.logo .logo-emblem.logo-emblem-image {width:60px;height:60px;flex:0 0 60px;border:0;border-radius:0;background:transparent;overflow:visible;box-shadow:none;padding:0}
+.logo .logo-emblem.logo-emblem-image::after{content:none!important;display:none!important}
+.logo .logo-emblem.logo-emblem-image img {display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 2px 3px #7b34491a)}
+.footer .logo-emblem.logo-emblem-image {background:transparent;border:0}
+.footer .logo-emblem.logo-emblem-image img {filter:drop-shadow(0 2px 4px #fce7eb35)}
+.header .logo {gap:10px}
+@media(max-width:780px){.logo .logo-emblem.logo-emblem-image{width:47px;height:47px;flex-basis:47px}}
+@media(max-width:350px){.logo .logo-emblem.logo-emblem-image{width:42px;height:42px;flex-basis:42px}}
 </style>
 </head>
 <body>
 <div class="top-note"><span class="top-note-spark">✳</span><span>SEU AUTOCUIDADO COMEÇA AQUI</span><span class="dot"></span><span>ESCOLHA ONLINE, RETIRE NO SALÃO</span><span class="top-note-spark">✳</span></div>
 <header class="header">
   <div class="container header-inner">
-    <a class="logo" href="#" aria-label="Dulce, início"><span class="logo-emblem logo-emblem-image" aria-hidden="true"><img src="./icon.svg?v=2" alt="" width="48" height="48" decoding="async"></span><span class="logo-text"><strong>Dulce.</strong><small>BELEZA & CUIDADO</small></span></a>
+    <a class="logo" href="#" aria-label="Dulce, início"><span class="logo-emblem logo-emblem-image" aria-hidden="true"><img src="./logo-dulce-transparent.png?v=4" alt="" width="48" height="48" decoding="async"></span><span class="logo-text"><strong>Dulce.</strong><small>BELEZA & CUIDADO</small></span></a>
     <nav class="navigation" aria-label="Navegação principal"><a href="#categorias">Categorias</a><a href="#colecao">Produtos</a><a href="#marcas">Marcas</a><a href="#como-funciona">Como comprar</a></nav>
     <div class="header-actions">
       <button type="button" class="icon-button header-search-button" id="headerSearch" aria-label="Buscar produtos"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" aria-hidden="true"><circle cx="10.7" cy="10.7" r="7"/><path d="m16 16 5 5"/></svg></button>
@@ -219,7 +227,7 @@ html{scroll-padding-top:77px}.container{padding-left:19px;padding-right:19px}.to
 </section>
 </main>
 <div class="mobile-tab-bar" aria-label="Acesso rápido no celular"><a href="#" aria-label="Voltar ao início"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m3 10 9-7 9 7v11h-6v-7H9v7H3V10Z"/></svg><small>Início</small></a><button type="button" id="mobileSearch" aria-label="Buscar no catálogo"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="10.7" cy="10.7" r="7"/><path d="m16 16 5 5"/></svg><small>Buscar</small></button><a href="#categorias" aria-label="Ver categorias"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><small>Categorias</small></a><button type="button" id="mobileCartOpen" aria-label="Abrir sacola"><span class="tab-cart-icon"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M5 8h14l1 12H4L5 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span id="mobileCartCount" class="mobile-tab-count" hidden>0</span></span><small>Sacola</small></button></div>
-<footer class="footer"><div class="container"><div class="footer-row"><div class="logo"><span class="logo-emblem logo-emblem-image" aria-hidden="true"><img src="./icon.svg?v=2" alt="" width="48" height="48" decoding="async"></span><span class="logo-text"><strong>Dulce.</strong><small>BELEZA & CUIDADO</small></span></div><p class="footer-blurb">Cuidar de si é um gesto de amor. Sua seleção de beleza favorita, com retirada no salão.</p></div><div class="footer-bottom"><span>© <span id="year"></span> Dulce • Feito com carinho.</span><span>Catálogo demonstrativo • Imagens ilustrativas • Fotos editoriais: Pexels. Confirme valores, estoque e retirada.</span></div></div></footer>
+<footer class="footer"><div class="container"><div class="footer-row"><div class="logo"><span class="logo-emblem logo-emblem-image" aria-hidden="true"><img src="./logo-dulce-transparent.png?v=4" alt="" width="48" height="48" decoding="async"></span><span class="logo-text"><strong>Dulce.</strong><small>BELEZA & CUIDADO</small></span></div><p class="footer-blurb">Cuidar de si é um gesto de amor. Sua seleção de beleza favorita, com retirada no salão.</p></div><div class="footer-bottom"><span>© <span id="year"></span> Dulce • Feito com carinho.</span><span>Catálogo demonstrativo • Imagens ilustrativas • Fotos editoriais: Pexels. Confirme valores, estoque e retirada.</span></div></div></footer>
 <div class="overlay" id="overlay" aria-hidden="true"></div>
 <aside class="cart-drawer" id="cartDrawer" role="dialog" aria-modal="true" aria-labelledby="cartTitle" aria-hidden="true">
   <header class="drawer-head"><div><small>SEU MOMENTO DULCE</small><h2 id="cartTitle">Minha sacola</h2></div><button type="button" class="close-drawer" id="cartClose" aria-label="Fechar sacola"><svg width="18" height="18" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" fill="none" aria-hidden="true"><path d="M5 5l14 14M19 5 5 19"/></svg></button></header>
