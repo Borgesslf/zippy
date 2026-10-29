@@ -327,10 +327,15 @@ html{scroll-padding-top:77px}.container{padding-left:19px;padding-right:19px}.to
     var lines=PRODUCTS.filter(function(p){return cart[p.id]>0}).map(function(p){return "• "+cart[p.id]+"x "+p.name+" ("+p.brand+") — "+money(p.price*cart[p.id])});
     var message="Olá! Gostaria de solicitar uma retirada na *Dulce*. 🌷\n\n*Meu pedido:*\n"+lines.join("\n")+"\n\n*Subtotal estimado:* "+money(subtotal())+"\n\n*Nome:* "+name+"\n*WhatsApp:* "+document.getElementById("customerPhone").value.trim()+"\n*Data desejada:* "+formatted+"\n*Período desejado:* "+time+(note?"\n*Observações:* "+note:"")+"\n\n_Por favor, confirmem disponibilidade, valores e horário de retirada. Pedido ainda não confirmado._";
     var number=SALON_WHATSAPP.replace(/\D/g,"");
-    var link=(number?"https://wa.me/"+number+"?text=":"https://api.whatsapp.com/send?text=")+encodeURIComponent(message);
-    if(!number)notify("Prévia: escolha manualmente o contato do salão no WhatsApp.");
-    window.location.href=link;
+    if(!number){
+      function fallbackCopy(){var area=document.createElement("textarea");area.value=message;area.style.position="fixed";area.style.opacity="0";document.body.appendChild(area);area.focus();area.select();var copied=document.execCommand("copy");area.remove();notify(copied?"Solicitação copiada! Cole no WhatsApp do salão.":"Copie a mensagem quando o número for configurado.")}
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(message).then(function(){notify("Solicitação copiada! Cole no WhatsApp do salão.")}).catch(fallbackCopy)}
+      else fallbackCopy();
+      return;
+    }
+    window.location.href="https://wa.me/"+number+"?text="+encodeURIComponent(message);
   });
+  if(!SALON_WHATSAPP.replace(/\D/g,"")){document.querySelector(".checkout-submit").textContent="Copiar solicitação (prévia)"}
   document.getElementById("year").textContent=String(new Date().getFullYear());
   renderProducts();renderCart();
   if("serviceWorker" in navigator && (location.protocol==="https:"||location.hostname==="localhost")){window.addEventListener("load",function(){navigator.serviceWorker.register("./sw.js").catch(function(){})})}
