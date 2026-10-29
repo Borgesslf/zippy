@@ -1,0 +1,19 @@
+{
+  "name": "Dulce — Beleza & Cuidado",
+  "short_name": "Dulce",
+  "description": "Catálogo de beleza e pedidos para retirada no salão.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#fffaf8",
+  "theme_color": "#c77f99",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
