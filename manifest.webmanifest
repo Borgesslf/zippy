@@ -1,19 +1,26 @@
 {
   "name": "Dulce — Beleza & Cuidado",
   "short_name": "Dulce",
-  "description": "Catálogo de beleza e pedidos para retirada no salão.",
+  "description": "Vitrine de produtos de beleza com retirada no salão.",
+  "id": "./",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "background_color": "#fffaf8",
-  "theme_color": "#c77f99",
+  "background_color": "#fbf8f6",
+  "theme_color": "#bf7891",
   "icons": [
     {
       "src": "./icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
+    },
+    {
+      "src": "./apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
     }
   ]
 }
