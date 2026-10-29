@@ -251,7 +251,7 @@ html{scroll-padding-top:77px}.container{padding-left:19px;padding-right:19px}.to
     {id:7,brand:"Natura",name:"Sabonetes para o banho",detail:"Corpo & banho • exemplo",category:"corpo",price:29.90,tone:"green",vessel:"box"},
     {id:8,brand:"O Boticário",name:"Perfume delicado",detail:"Perfumaria • exemplo",category:"perfumaria",price:89.90,tone:"mauve",vessel:"spray"}
   ];
-  var category = "todos",search = "",checkoutOpen=false,lastFocused=null,toastTimer;
+  var category = "todos",search = "",sortBy="default",checkoutOpen=false,lastFocused=null,toastTimer;
   var cart={};
   try{cart=JSON.parse(localStorage.getItem("dulce-sacola-v1")||"{}")||{}}catch(e){cart={}}
   PRODUCTS.forEach(function(p){var q=Number(cart[p.id]);if(!Number.isInteger(q)||q<1){delete cart[p.id]}else{cart[p.id]=Math.min(q,20)}});
@@ -265,16 +265,20 @@ html{scroll-padding-top:77px}.container{padding-left:19px;padding-right:19px}.to
   function art(p){return '<div class="product-art tone-'+p.tone+'"><div class="art-shadow"></div><div class="vessel vessel-'+p.vessel+'"><span class="bottle-print"><small>BEAUTY EDIT</small><b>Dulce</b><small>CURADORIA</small></span></div><span class="art-caption">DULCE • EDIT 01</span></div>'}
   function renderProducts(){
     var shown=PRODUCTS.filter(function(p){return (category==="todos"||category===p.category)&&clean(p.name+" "+p.brand+" "+p.detail).includes(clean(search))});
+    if(sortBy==="price-asc")shown.sort(function(a,b){return a.price-b.price});
+    else if(sortBy==="price-desc")shown.sort(function(a,b){return b.price-a.price});
+    else if(sortBy==="name")shown.sort(function(a,b){return a.name.localeCompare(b.name,"pt-BR")});
+    document.getElementById("resultsCount").textContent=shown.length+" "+(shown.length===1?"produto de exemplo":"produtos de exemplo");
     grid.innerHTML=shown.map(function(p){
-      return '<article class="product-card">'+art(p).replace('class="product-art','class="product-art')+
+      return '<article class="product-card">'+art(p)+
       (p.badge?'<span class="card-badge">'+p.badge+'</span>':'')+
-      '<div class="product-info"><span class="product-brand">'+p.brand+'</span><h3 class="product-name">'+p.name+'</h3><p class="product-description">'+p.detail+'</p><div class="product-bottom"><span class="price">'+money(p.price)+'</span><button type="button" class="add-button" data-add="'+p.id+'" aria-label="Adicionar '+p.name+' à sacola" title="Adicionar à sacola"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button></div></div></article>'
+      '<div class="product-info"><span class="product-brand">'+p.brand+'</span><h3 class="product-name">'+p.name+'</h3><p class="product-description">'+p.detail+'</p><div class="product-bottom"><span class="price">'+money(p.price)+'</span><button type="button" class="add-button" data-add="'+p.id+'" aria-label="Adicionar '+p.name+' à sacola"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg> Adicionar à sacola</button><div class="card-qualifier">Valor demonstrativo</div></div></div></article>'
     }).join("");
     empty.hidden=shown.length>0;grid.hidden=shown.length===0;
   }
   function renderCart(){
     var added=PRODUCTS.filter(function(p){return Number(cart[p.id])>0});
-    var total=qtyTotal();cartCount.textContent=total>99?"99+":String(total);cartTotal.textContent=money(subtotal());footer.hidden=added.length===0;
+    var total=qtyTotal();cartCount.textContent=total>99?"99+":String(total);var mobileCount=document.getElementById("mobileCartCount");mobileCount.textContent=total>99?"99+":String(total);mobileCount.hidden=total===0;cartTotal.textContent=money(subtotal());footer.hidden=added.length===0;
     if(!added.length){checkoutOpen=false;checkoutSection.hidden=true;cartContent.innerHTML='<div class="cart-empty"><span class="empty-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="M5 8h14l1 12H4L5 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg></span><h3>Sua sacola está vazia</h3><p>Encontre seus favoritos e prepare um carinho especial para você.</p><button type="button" class="btn btn-outline" id="emptyClose">Explorar a seleção</button></div>';return}
     cartContent.innerHTML=added.map(function(p){
       return '<div class="cart-item">'+art(p)+'<div class="cart-item-content"><small>'+p.brand+'</small><h3>'+p.name+'</h3><div class="cart-item-bottom"><span class="cart-item-price">'+money(p.price*cart[p.id])+'</span><div class="qty"><button type="button" data-dec="'+p.id+'" aria-label="Diminuir quantidade de '+p.name+'">−</button><strong>'+cart[p.id]+'</strong><button type="button" data-inc="'+p.id+'" aria-label="Aumentar quantidade de '+p.name+'">+</button></div></div></div></div>'
@@ -293,11 +297,21 @@ html{scroll-padding-top:77px}.container{padding-left:19px;padding-right:19px}.to
   function notify(msg){toast.textContent=msg;toast.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(function(){toast.classList.remove("show")},2600)}
   function openCart(){lastFocused=document.activeElement;drawer.classList.add("open");overlay.classList.add("open");drawer.setAttribute("aria-hidden","false");document.body.classList.add("no-scroll");document.getElementById("cartClose").focus()}
   function closeCart(){drawer.classList.remove("open");overlay.classList.remove("open");drawer.setAttribute("aria-hidden","true");document.body.classList.remove("no-scroll");if(lastFocused&&typeof lastFocused.focus==="function")lastFocused.focus()}
-  document.querySelectorAll("[data-filter]").forEach(function(button){button.addEventListener("click",function(){category=button.dataset.filter;document.querySelectorAll("[data-filter]").forEach(function(b){var active=b===button;b.classList.toggle("active",active);b.setAttribute("aria-pressed",String(active))});renderProducts()})});
+  function selectCategory(value){
+    category=value;
+    document.querySelectorAll("[data-filter]").forEach(function(b){var active=b.dataset.filter===value;b.classList.toggle("active",active);b.setAttribute("aria-pressed",String(active))});
+    renderProducts();
+  }
+  document.querySelectorAll("[data-filter]").forEach(function(button){button.addEventListener("click",function(){selectCategory(button.dataset.filter)})});
+  document.querySelectorAll("[data-category-quick]").forEach(function(button){button.addEventListener("click",function(){selectCategory(button.dataset.categoryQuick);document.getElementById("colecao").scrollIntoView({behavior:"smooth",block:"start"})})});
+  document.getElementById("sortSelect").addEventListener("change",function(e){sortBy=e.target.value;renderProducts()});
   document.getElementById("searchInput").addEventListener("input",function(e){search=e.target.value;renderProducts()});
   grid.addEventListener("click",function(e){var btn=e.target.closest("[data-add]");if(btn)updateCart(Number(btn.dataset.add),1)});
   cartContent.addEventListener("click",function(e){var up=e.target.closest("[data-inc]"),down=e.target.closest("[data-dec]");if(up)updateCart(Number(up.dataset.inc),1);if(down)updateCart(Number(down.dataset.dec),-1);if(e.target.closest("#emptyClose")){closeCart();document.getElementById("colecao").scrollIntoView({behavior:"smooth"})}});
-  document.getElementById("cartOpen").addEventListener("click",openCart);document.getElementById("cartClose").addEventListener("click",closeCart);overlay.addEventListener("click",closeCart);
+  document.getElementById("cartOpen").addEventListener("click",openCart);document.getElementById("mobileCartOpen").addEventListener("click",openCart);document.getElementById("cartClose").addEventListener("click",closeCart);overlay.addEventListener("click",closeCart);
+  function focusSearch(){document.getElementById("colecao").scrollIntoView({behavior:"smooth",block:"start"});setTimeout(function(){document.getElementById("searchInput").focus({preventScroll:true})},220)}
+  document.getElementById("headerSearch").addEventListener("click",focusSearch);
+  document.getElementById("mobileSearch").addEventListener("click",focusSearch);
   document.addEventListener("keydown",function(e){if(e.key==="Escape"&&drawer.classList.contains("open"))closeCart();if(e.key==="Tab"&&drawer.classList.contains("open")){var tabbable=Array.from(drawer.querySelectorAll('button:not([disabled]):not([hidden]),input:not([disabled]),select:not([disabled]),textarea:not([disabled])')).filter(function(el){return el.getClientRects().length>0});if(tabbable.length){var first=tabbable[0],last=tabbable[tabbable.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}}});
   checkoutButton.addEventListener("click",function(){checkoutOpen=!checkoutOpen;checkoutSection.hidden=!checkoutOpen;renderCart();if(checkoutOpen){checkoutSection.scrollIntoView({behavior:"smooth",block:"start"});setTimeout(function(){document.getElementById("customerName").focus({preventScroll:true})},230)}else{drawerScroll.scrollTop=0}});
   function localToday(){var d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
